@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>德雅通科技有限公司</title>
+		<base href="./" th:href="'/template//'"/>
+		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/qita.skin/content.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--/*-->
+		<script type="text/javascript" src="js/dev.js"></script>
+		<!--*/-->
+		<script type="text/javascript" src="js/all.js"></script>
+		<!--打印-->
+		<script type="text/javascript" src="js/focus.js"></script>
+		<!--字体大小-->
+		<script type="text/javascript" src="js/article_pub.js"></script>
+		<script type="text/javascript" src="js/jquery.caroufredsel-6.0.4-packed.js"></script>
+	</head>
+	<body>
+	<!-- 头部 start-->
+	<div id="header" th:replace="/header.html"></div>
+	<!-- 头部 end-->
+	<div class="g-bd">
+		<div class="g-blk15"></div>
+	    <div class="g-blk15"></div>
+		<div class="m-local">
+			当前位置：
+			<span>
+				<a href="index.html" th:href="'/'">首页</a>
+			</span>
+			<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+				<span>></span><span><a th:href="'/'+${c.pathName}+'.list'" href="xwzx.html" th:text="${c.name}">[[${c.name}]]</a></span>
+			</th:block>
+			<span>></span>
+			<span>内容页</span>
+		</div>
+		<div class="g-blk15"></div>
+		<div class="m-ct">
+			<div class="m-ct-tt-bd">
+				<div class="m-ct-tt" th:text="${infoData.title}">[[${infoData.title}]]</div>
+			</div>
+			<div class="g-blk15"></div>
+			<div class="g-blk5"></div>
+			<div class="m-ct-crm">
+				<span>发布人：<span th:text="${infoData.author}">[[${infoData.author}]]</span></span>
+				<span>日期：<span th:text="${#dates.format(infoData.resourcePublicationDate,'yyyy-MM-dd')}">[[${#dates.format(infoData.resourcePublicationDate,'yyyy-MM-dd')}]]</span></span>
+				<span>浏览次数：<span id="viewCount">0</span></span>  <!--todo 此处需要动态加载浏览次数-->
+				<span class="printIco"><a href="javascript:window.print();">打印</a></span>
+				<span class="switchsize ">
+					<i class="font_icon"></i>【字体：
+					<span class="bigger">大</span>
+					<span class="medium">中</span>
+					<span class="smaller">小</span>】
+				</span>
+			</div>
+			<!--<div class="g-blk15"></div>-->
+			<div class="g-blk15"></div>
+			<!--<div class="g-blk10"></div>-->
+			<div th:if="${infoData.resourceContent!=null}" class="m-ct-artcle" th:utext="${infoData.resourceContent}">
+				[[${infoData.resourceContent}]]
+			</div>
+			<div class="g-blk15"></div>
+			<div class="g-blk15"></div>
+			<div class="m-ct-btn">
+				<div class="shar_area">
+					<div class="bdsharebuttonbox">
+						<span>分享到：</span>
+						<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+						<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+						<a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+						<a href="#" class="bds_more" data-cmd="more"></a>
+					</div>
+			            <script th:inline="none">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+			    </div>
+			    <a class="fhsy" href="index.html" th:href="'/'">返回首页</a>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 start -->
+	<div id="footer" th:replace="/footer.html"></div>
+	<!-- 底部 end -->
+	</body>
+</html>

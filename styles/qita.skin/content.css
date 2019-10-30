@@ -1,0 +1,26 @@
+@charset "utf-8";
+.m-ct{padding:39px 44px 35px;border:solid 1px #d2d2d2;background-color: #FFFFFF;text-align: center;}
+.m-ct-tt-bd{line-height: 34px;color:#3c3c3c;}
+.m-ct-tt{font-size: 22px;font-weight: bold;}
+.m-ct-utt,.m-ct-dtt{font-size: 18px;}
+.m-ct-crm{text-align: center;}
+.m-ct-crm span{font-size: 14px;display: inline-block;margin-right: 80px;color: #969696;}
+.m-ct-crm span a{color: #969696;}
+.switchsize{padding-left: 25px;background: url(../../images/qita.files/zt.png) no-repeat;}
+.switchsize span{margin: 0px;cursor: pointer;}
+.printIco{padding-left:25px;background: url(../../images/qita.files/dy.png) 0px 5px no-repeat;}
+.m-ct-artcle {min-height: 300px; font-size: 14px;color: #646464;text-align: justify;line-height:28px;text-indent: 2em;}
+.m-ct-btn{height: 30px;padding-top: 20px;border-top: solid 1px #e6e6e6;}
+.shar_area{float: left;}
+.shar_area span{float: left;font-size: 14px;color: #5b5b5b;line-height: 35px;display: inline-block;}
+.fhsy {float: right;font-size: 14px;color: #5b5b5b;line-height: 35px;display: inline-block; }
+
+
+.wzdt_table{ width:670px; margin:0 auto;}
+.wzdt_table table tr td{ height:40px; line-height:40px; border:#000 solid 1px; text-align:center;}
+
+.ztzl_box{ width:100%; padding-bottom:40px;}
+.ztzl_tt{ width:100%; height:40px; line-height:40px; border-bottom:#1063cf solid 2px; background-color:#eaeaea; font-size:16px; font-weight:bold; color:#1063cf; text-indent:15px;}
+.ztzl_con{ width:100%;}
+.ztzl_con ul li{ padding-left:15px; padding-right:15px; float:left; display:inline; height:35px; line-height:35px;}
+.ztzl_con ul li a{ font-size:14px;}

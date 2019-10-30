@@ -1,0 +1,30 @@
+<div class="g-bg">
+    <div class="g-bnr" id="g-bnr">
+        <div class="g-bd">
+            <span class="g-bnr-wb"><a href="/"><img src="images/common.files/wbwx.png"/></a></span>
+            <span class="g-bnr-wx"><img src="images/common.files/wbwx.png"/></span>
+            <span class="g-bnr-phone">029-88352636</span>
+        </div>
+    </div>
+    <div class="g-nav" id="g-nav">
+        <div class="g-bd">
+            <div class="g-nav-log left"><a href="/"><img src="images/common.files/logo-r.png"/></a></div>
+            <ul class="left">
+                <li><a href="/" th:href="'/'">首页</a></li>
+                <li th:each="catalog : ${#CataData.getCatalogChildrenTree(site.id,0)}">
+			      <a th:href="'/'+${catalog.pathName+'.list'}" th:text="${catalog.name}">[[${catalog.name}]]</a>
+			  </li>
+            </ul>
+            <div class="g-search right">
+                <form id="searchform" name="searchform" th:action="'/search.list'"  method="get" target="_self">
+                    <input class="sc_text" name="keywords" value="请输入关键字" onfocus="if (this.value == '请输入关键字') {this.value = '';}"
+                           onblur="if (this.value == '') {this.value = '请输入关键字';}" type="text">
+                    <input name="siteId" type="hidden" th:value="${siteId}" value=""/>
+                    <input class="sc_btn right"  value="" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="g-blk15"></div>
+<div class="g-blk15"></div>

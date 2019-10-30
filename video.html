@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+ </head>
+<body>
+<th:block th:with="infoList = ${#InfoData.getInfoList(#{'siteId':site.id,'catId':catalog.id},p,20)}">
+<ul class="u-list2">
+  <li th:each="item : ${infoList.records}">
+      <a th:href="${item.url}" th:text="${item.title}">外籍记者手记：兵马俑的壮观令人震撼</a><span th:text="${#dates.format(item.createTime,'yyyy/MM/dd')}">2018/05/11</span>
+  </li>
+</ul>
+</body>
+</html>
