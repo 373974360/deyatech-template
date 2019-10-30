@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <base href="./" th:href="'/template/'"/>
+		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
+		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/qita.skin/qita.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--/*-->
+		<script type="text/javascript" src="js/dev.js"></script>
+		<!--*/-->
+		<script type="text/javascript" src="js/all.js"></script>
+	</head>
+	<body>
+		<!-- 头部 start-->
+		<div id="header" th:replace="/other/header.html"></div>
+		<!-- 头部 end-->
+		<div class="g-bd m-cpfw">
+			<div class="g-1st-lt left">
+				<div class="m-lst-tnm" th:with="rootCatalogss = ${#CataData.getRootCatalog(site.id,catalog.id)}" th:text="${rootCatalogss.name}">[[${rootCatalogss.name}]]</div>
+				<ul class="m-lst-nav" >
+                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,rootCatalog.id)}" th:class="${cata.id == catalog.id ? 'hover':''}"><a th:href="'/'+${cata.pathName}+'.list'" th:text="${cata.name}" href="xwzx.html">[[${cata.name}]]</a></li>
+				</ul>
+			</div>
+			<div class="g-1st-rt right">
+				<div class="m-tnm">
+					<div class="m-rst-tnm left">
+						<a th:href="'/'+${catalog.pathName}+'.list'" th:text="${catalog.name}" href="xwzx.html">[[${catalog.name}]]</a>
+					</div>
+					<div class="m-local right" >
+						当前位置：
+						<span><a href="/" >首页</a></span>
+						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+							<span>></span><span><a th:href="'/'+${c.pathName}+'.list'" href="xwzx.html" th:text="${c.name}">[[${c.name}]]</a></span>
+						</th:block>
+					</div>
+				</div>
+				<div class="g-blk15"></div>
+				<th:block th:with="infoList = ${#InfoData.getInfoList(#{'siteId':site.id,'catId':catalog.id},p,s)}">
+				<div class="m-xwzx">
+					<ul class="u-list2">
+						<li th:each="item : ${infoList.records}">
+							<div class="u-list2-img" th:if="${item.thumbnail!=null && item.thumbnail!=''}"><a target="_blank" th:href="${item.url}"><img th:src="${item.thumbnail}" src="images/common.files/001.jpg"/></a></div>
+							<div id="u-list2-cont">
+								<div class="u-list2-tt">
+									<a target="_blank" th:href="${item.url}" th:text="${item.title}">[[${item.title}]]</a><span th:text="${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}">[[${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}]]</span>
+								</div>
+								<div th:if="${item.resourceSummary!=null && item.resourceSummary!=null}" class="u-list2-p" th:utext="${item.resourceSummary}">
+									[[${item.resourceSummary}]]
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!--翻页begin-->
+
+				<div class="m-lst-pg">
+					<span><a th:href="@{'/'+${catalog.pathName+'.list'}(p=1)}">首页</a></span>
+					<span th:if="${infoList.current>1}"><a th:href="@{'/'+${catalog.pathName+'.list'}(p=${infoList.current-1})}">上一页</a></span>
+					<span th:if="${infoList.current<infoList.pages}"><a th:href="@{'/'+${catalog.pathName+'.list'}(p=${current+1})}">下一页</a></span>
+					<span><a th:href="@{'/'+${catalog.pathName+'.list'}(p=${infoList.pages})}">末页</a></span>
+					<span th:text="'共'+${infoList.total}+'条记录'">共110条记录</span>
+					<span th:text="'共'+${infoList.pages}+'页'">共10页</span>
+					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,infoList.pages)}"  th:value="@{'/'+${catalog.pathName+'.list'}(p=${p})}" th:selected="${p} == ${infoList.current}" th:text="${p}">1</option> </select>页 </span>
+				</div><!--翻页end-->
+				</th:block>
+			</div>
+		</div>
+		<!-- 底部 start -->
+		<div id="footer" th:replace="/other/footer.html"></div>
+		<!-- 底部 end -->
+	</body>
+</html>
