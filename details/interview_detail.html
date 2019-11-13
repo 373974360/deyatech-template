@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>德雅通科技有限公司</title>
+        <base href="./" th:href="'/template//'"/>
+        <link rel="stylesheet" type="text/css" href="styles/group.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/qita.skin/content.css"/>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <!--/*-->
+        <script type="text/javascript" src="js/dev.js"></script>
+        <!--*/-->
+        <script type="text/javascript" src="js/all.js"></script>
+        <script type="text/javascript" src="js/stomp.min.js"></script>
+        <script type="text/javascript" src="js/sockjs.min.js"></script>
+        <script type="text/javascript" src="js/interview.js"></script>
+        <script th:inline="javascript">
+            var modelId = [[${interviewData.id}]];
+            webSocketMessage(modelId);
+            webSocketImage(modelId);
+        </script>
+    </head>
+    <body>
+    <!-- 头部 start-->
+    <div id="header" th:replace="/other/header.html"></div>
+    <!-- 头部 end-->
+    <div class="g-bd">
+        <div class="g-blk15"></div>
+        <div class="g-blk15"></div>
+        <div class="m-local">
+            当前位置：
+            <span>
+                <a href="index/index.html" th:href="'/'">首页</a>
+            </span>
+            <th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+                <span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+            </th:block>
+            <span>></span>
+            <span>内容页</span>
+        </div>
+        <div class="g-blk15"></div>
+        <div class="m-ct" style="text-align: left;">
+            <p>主题：<span th:text="${interviewData.name}">[[${interviewData.name}]]</span></p>
+            <p>时间：<span th:text="${interviewData.time}">[[${interviewData.time}]]</span></p>
+            <p>简介：<span th:text="${interviewData.description}">[[${interviewData.description}]]</span></p>
+            <p>直播地址：<span th:text="${interviewData.liveUrl}">[[${interviewData.liveUrl}]]</span></p>
+            <p>视频地址：<span th:text="${interviewData.videoUrl}">[[${interviewData.videoUrl}]]</span></p>
+            <p>嘉宾简介</p>
+            <ul>
+                <li th:each="guest: ${interviewData.guestVoList}">
+                    <b>[[${guest.name}]]</b>
+                    <p>[[${guest.job}]]</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 底部 start -->
+    <div id="footer" th:replace="/other/footer.html"></div>
+    <!-- 底部 end -->
+    </body>
+</html>

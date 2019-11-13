@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <base href="./" th:href="'/template/'"/>
+		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
+		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/qita.skin/qita.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/list.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.validate.js"></script>
+        <script type="text/javascript" src="js/applyOpen.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--/*-->
+		<script type="text/javascript" src="js/dev.js"></script>
+		<!--*/-->
+		<script type="text/javascript" src="js/all.js"></script>
+	</head>
+	<body>
+		<!-- 头部 start-->
+		<div id="header" th:replace="/other/header.html"></div>
+		<!-- 头部 end-->
+		<div class="g-bd m-cpfw">
+            <th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
+                <div class="g-1st-lt left" th:if="${catalogList!=null}">
+                    <div class="m-lst-tnm">[[${catalog.name}]]</div>
+                    <ul class="m-lst-nav">
+                        <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
+                            <a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="g-1st-lt left" th:if="${catalogList==null}">
+                    <div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
+                    <ul class="m-lst-nav">
+                        <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
+                            <a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+                        </li>
+                    </ul>
+                </div>
+            </th:block>
+            <div class="g-1st-rt right">
+                <div class="m-tnm">
+                    <div class="m-rst-tnm left">
+                        <a th:href="'/'+${catalog.pathName}+'_catagory.jhtml'">[[${catalog.name}]]</a>
+                    </div>
+                    <div class="m-local right" >
+                        当前位置：
+                        <span><a href="/" >首页</a></span>
+                        <th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+                            <span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+                        </th:block>
+                    </div>
+                </div>
+				<div class="g-blk15"></div>
+				<div class="m-xwzx">
+                    <div class="contentBox6" id="ysq_info">
+                        <div class="dqwz_rr"><span></span>申请人信息</div>
+                        <form id="applyOpenForm" class="">
+                            <input type="hidden" name="modelId" id="modelId" th:value="${modelData.id}"><!--业务ID-->
+                            <input type="hidden" name="namePath" id="namePath" th:value="${catalog.pathName}"><!--栏目-->
+                            <input type="hidden" name="actionType" id="actionType" value="insertApplyOpen"><!--表单类型-->
+                            <input type="hidden" name="random" id="random" value=""><!--验证码KEY-->
+                            <table class="shenqingTable" id="" cellspacing="0" cellpadding="0" border="0">
+                                <tbody><tr>
+                                    <td>
+                                        <ul>
+                                            <li onclick="showYsq_type_table(0)">
+                                                <input name="ysqType" type="radio" value="1" checked="" class="input_radio">
+                                                <label>公民</label>
+                                            </li>
+                                            <li onclick="showYsq_type_table(1)">
+                                                <input name="ysqType" type="radio" value="2" class="input_radio">
+                                                <label>法人或者其他组织</label>
+                                            </li>  
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                            <span class="blank3"></span>
+                            <table class="shenqingTable" id="" cellspacing="0" cellpadding="0" border="0">
+                                <tbody id="Ysq_type_table_gm">
+                                    <tr>
+                                        <th>受理部门：</th>
+                                        <td colspan="3">
+                                            <select name="deptId" id="deptId" style="width:125px;" class="input_select valid" th:with="deptList = ${#ApplyOpenUtil.getPartDept(modelData.id)}">
+                                                <option selected value="">请选择受理部门</option>
+                                                <option value="-1" style="color:red;">我不知道部门</option>
+                                                <option th:each="item : ${deptList}" th:value="${item.id}" th:text="${item.name}">[[${item.name}]]</option>         
+                                            </select>
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>姓名：</th>
+                                        <td>
+                                            <input type="text" id="name" name="name" value="" class="input_text_w input_text">
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                        <th>工作单位：</th>
+                                        <td><input type="text" id="company" name="company" value="" class="input_text_w input_text"></td>        
+                                    </tr>
+                                    <tr>
+                                        <th>证件名称：</th>
+                                        <td>
+                                            <select id="cardName" name="cardName" class="input_select_w input_select">
+                                                <option value="0">身份证</option>
+                                                <option value="1">军官证</option>
+                                                <option value="2">学生证</option>
+                                                <option value="3">工作证</option>
+                                            </select>
+                                        </td>
+                                        <th>证件号码：</th>
+                                        <td><input type="text" id="cardCode" name="cardCode" value="" class="input_text_w input_text"></td>
+                                    </tr>       
+                                </tbody>
+                                <tbody id="Ysq_type_table_fr" class="hidden">
+                                    <tr>
+                                        <th><nobr>组织机构代码：</nobr></th>
+                                        <td>
+                                            <input type="text" id="orgCode" name="orgCode" value="" class="input_text_w input_text">
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                        <th><nobr>营业执照代码：</nobr></th>
+                                        <td>
+                                            <input type="text" id="licence" name="licence" value="" class="input_text_w input_text">
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>法人代表：</th>
+                                        <td><input type="text" id="legalperson" name="legalperson" value="" class="input_text_w input_text"></td>
+                                        <th>联系人：</th>
+                                        <td><input type="text" id="linkman" name="linkman" value="" class="input_text_w input_text"></td>    
+                                    </tr>         
+                                </tbody>
+                                <tbody>          
+                                    <tr>
+                                        <th><nobr>联系电话：</nobr></th>
+                                        <td>
+                                            <input type="text" id="tel" name="tel" value="" class="input_text_w input_text">
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                        <th><nobr>联系传真：</nobr></th>
+                                        <td><input type="text" id="fax" name="fax" value="" class="input_text_w input_text"></td>          
+                                    </tr>
+                                    <tr>
+                                        <th>手机号码：</th>
+                                        <td>
+                                            <input type="text" id="phone" name="phone" value="" class="input_text_w input_text">
+                                        </td>
+                                        <th>电子邮箱：</th>
+                                        <td><input type="text" id="email" name="email" value="" class="input_text_w input_text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>通讯地址：</th>
+                                        <td>
+                                            <input id="address" name="address" type="text" maxlength="30" value="" class="input_text_w input_text">
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>    
+                                        <th>邮政编码：</th>
+                                        <td>
+                                            <input type="text" id="postcode" name="postcode" value="" class="input_text_w input_text">
+                                        </td>
+                                    </tr>        
+                                </tbody>
+                            </table>  
+                            <div class="dqwz_rr"><span></span>所需信息情况</div>
+                            <table id="" class="shenqingTable" cellspacing="0" cellpadding="0" border="0">
+                                <tbody>          
+                                    <tr>
+                                        <th><nobr>所需信息内容描述：</nobr></th>
+                                        <td>
+                                            <textarea id="content" name="content" style="width:550px;height:80px;" class="input_textarea"></textarea><span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>用途描述：</th>
+                                        <td>
+                                            <textarea id="description" name="description" style="width:550px;height:80px;" cols="60" rows="10" class="input_textarea"></textarea><span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><nobr>是否申请减免费用：</nobr></th>
+                                        <td>
+                                            <ul id="a123">
+                                                <li><input id="isDerate" name="isDerate" type="radio" value="0" class="input_radio"><label for="e">是</label></li>
+                                                <li><input id="isDerate" name="isDerate" type="radio" value="1" checked="true" class="input_radio"><label for="f">否</label></li>
+                                            </ul>
+                                        </td>        
+                                    </tr>
+                                    <tr>
+                                        <th><nobr>获取信息方式：</nobr></th>
+                                        <td>
+                                            <ul id="a43">
+                                                <li><input name="getMethod" type="checkbox" value="0" checked="true" class="input_checkbox"><label for="e">电子邮件</label></li>
+                                                <li><input name="getMethod" type="checkbox" value="1" class="input_checkbox"><label for="e">邮寄</label></li>
+                                                <li><input name="getMethod" type="checkbox" value="2" class="input_checkbox"><label for="e">传真</label></li>
+                                                <li><input name="getMethod" type="checkbox" value="3" class="input_checkbox"><label for="e">自行领取</label></li>
+                                            </ul>
+                                            <span class="f_red">*</span><div class="cError"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>验<span class="spanSpace6"></span>证<span class="spanSpace6"></span>码：</th>
+                                        <td>
+                                            <input id="verifyCode" name="verifyCode" type="text" class="" value=""  maxlength="4" style="width:78px;" />
+                                            <img alt="" width="80" height="22" id="img" align="absmiddle"/>&nbsp;&nbsp;
+                                            <a href="javascript:changeCreateImage();">看不清，请换一张</a>
+                                            <div class="cError"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <input type="hidden" id="gk_index" name="gk_index" value="0000">
+                            <input id="node_id" name="node_id" type="hidden" value="0">
+
+                            <span class="blank12"></span>
+                            <table class="shenqingTable" id="" cellspacing="0" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            <div class="blank5"></div>
+                                            <input id="btnOK" name="btnOK" type="button" onclick="insertApplyOpen()" value="提交"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input id="btnRst" name="btnReSet" type="reset" value="重置">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div id="result_div" class="result_div hidden">
+                        <table class="regFromSuccessTable" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <th><b>提交成功：</b></th>
+                                <td>谢谢您的参与！</td>
+                            </tr>
+                            <tr>
+                                <th><b>申请编码：</b></th>
+                                <td id="result_apply_code"></td>
+                            </tr>
+                            <tr>
+                                <th><b>查询密码：</b></th>
+                                <td id="result_query_code"></td>
+                            </tr>
+                            <tr>
+                                <th><b>友情提示：</b></th>
+                                <td>请妥善保存您的信件编码及查询码</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="g-blk12"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 底部 start -->
+		<div id="footer" th:replace="/other/footer.html"></div>
+		<!-- 底部 end -->
+	</body>
+</html>

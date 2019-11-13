@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <base href="./" th:href="'/template/'"/>
+		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
+		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/qita.skin/qita.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/list.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--/*-->
+		<script type="text/javascript" src="js/dev.js"></script>
+		<!--*/-->
+		<script type="text/javascript" src="js/all.js"></script>
+	</head>
+	<body>
+		<!-- 头部 start-->
+		<div id="header" th:replace="/other/header.html"></div>
+		<!-- 头部 end-->
+		<div class="g-bd m-cpfw">
+			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
+				<div class="g-1st-lt left" th:if="${catalogList!=null}">
+					<div class="m-lst-tnm">[[${catalog.name}]]</div>
+					<ul class="m-lst-nav">
+	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
+	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    </li>
+					</ul>
+				</div>
+				<div class="g-1st-lt left" th:if="${catalogList==null}">
+					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
+					<ul class="m-lst-nav">
+	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
+	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    </li>
+					</ul>
+				</div>
+			</th:block>
+			<div class="g-1st-rt right">
+				<div class="m-tnm">
+					<div class="m-rst-tnm left">
+						<a th:href="'/'+${catalog.pathName}+'_catagory.jhtml'">[[${catalog.name}]]</a>
+					</div>
+					<div class="m-local right" >
+						当前位置：
+						<span><a href="/" >首页</a></span>
+						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+							<span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+						</th:block>
+					</div>
+				</div>
+				<div class="g-blk15"></div>
+				<div class="m-xwzx">
+                    <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none;">申请信息</div>
+                    <div class="table2 ">
+                        <div class="table2-tr">
+                            <div class="table2-th tdbgi2 tdw140 f14B">信件编号</div>
+                            <div class="table2-th tdbgi2  t-i20" style="text-align: left;">
+                            	[[${applyOpenData.ysqCode}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">提交时间</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	[[${applyOpenData.createTime}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">所需内容描述</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	[[${applyOpenData.content}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">用途描述</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                                [[${applyOpenData.description}]]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank15"></div>
+                    <div class="blank15"></div>
+                    <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none;">回复内容</div>
+                    <div class="table2 ">
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">处理状态</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                        		<span th:if="${applyOpenData.applyStatus==0}">待处理</span>
+                        		<span th:if="${applyOpenData.applyStatus==1}">办理中</span>
+                        		<span th:if="${applyOpenData.applyStatus==3}">已办结</span>
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">办理部门</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	[[${applyOpenData.proDeptName}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">办理结果</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                               	<span th:if="${applyOpenData.applyStatus!=3}">
+                               		您好！您提交的信件我们已经收到，正在办理中。请您耐心等待！
+                               	</span>
+                        		<span th:if="${applyOpenData.applyStatus==3}">
+                        			[[${applyOpenData.replyContent}]]
+                        		</span>                         
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank15"></div>
+                    <!--替结束-->      
+                </div>
+				</div>
+			</div>
+			</th:block>
+		</div>
+		<!-- 底部 start -->
+		<div id="footer" th:replace="/other/footer.html"></div>
+		<!-- 底部 end -->
+	</body>
+</html>

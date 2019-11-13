@@ -32,7 +32,7 @@
 				<a href="index/index.html" th:href="'/'">首页</a>
 			</span>
 			<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-				<span>></span><span><a th:href="'/'+${c.pathName}+'.list'" href="xwzx.html" th:text="${c.name}">[[${c.name}]]</a></span>
+				<span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
 			</th:block>
 			<span>></span>
 			<span>内容页</span>
@@ -46,7 +46,7 @@
 			<div class="g-blk5"></div>
 			<div class="m-ct-crm">
 				<span>发布人：<span th:text="${infoData.author}">[[${infoData.author}]]</span></span>
-				<span>日期：<span th:text="${#dates.format(infoData.resourcePublicationDate,'yyyy-MM-dd')}">[[${#dates.format(infoData.resourcePublicationDate,'yyyy-MM-dd')}]]</span></span>
+				<span>日期：<span th:text="${infoData.resourcePublicationDate}">[[${infoData.resourcePublicationDate}]]</span></span>
 				<span>浏览次数：<span id="viewCount">0</span></span>  <!--todo 此处需要动态加载浏览次数-->
 				<span class="printIco"><a href="javascript:window.print();">打印</a></span>
 				<span class="switchsize ">

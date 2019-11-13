@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <base href="./" th:href="'/template/'"/>
+		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
+		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/qita.skin/qita.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/list.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--/*-->
+		<script type="text/javascript" src="js/dev.js"></script>
+		<!--*/-->
+		<script type="text/javascript" src="js/all.js"></script>
+	</head>
+	<body>
+		<!-- 头部 start-->
+		<div id="header" th:replace="/other/header.html"></div>
+		<!-- 头部 end-->
+		<div class="g-bd m-cpfw">
+			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
+				<div class="g-1st-lt left" th:if="${catalogList!=null}">
+					<div class="m-lst-tnm">[[${catalog.name}]]</div>
+					<ul class="m-lst-nav">
+	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
+	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    </li>
+					</ul>
+				</div>
+				<div class="g-1st-lt left" th:if="${catalogList==null}">
+					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
+					<ul class="m-lst-nav">
+	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
+	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    </li>
+					</ul>
+				</div>
+			</th:block>
+			<div class="g-1st-rt right">
+				<div class="m-tnm">
+					<div class="m-rst-tnm left">
+						<a th:href="'/'+${catalog.pathName}+'_catagory.jhtml'">[[${catalog.name}]]</a>
+					</div>
+					<div class="m-local right" >
+						当前位置：
+						<span><a href="/" >首页</a></span>
+						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+							<span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+						</th:block>
+					</div>
+				</div>
+				<div class="g-blk15"></div>
+				<div class="m-xwzx">
+                    <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none;">信件内容</div>
+                    <div class="table2 ">
+                        <div class="table2-tr">
+                            <div class="table2-th tdbgi2 tdw140 f14B">信件编号</div>
+                            <div class="table2-th tdbgi2  t-i20" style="text-align: left;">
+                            	[[${appealData.sqCode}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-th tdbgi2 tdw140 f14B">信件标题</div>
+                            <div class="table2-th tdbgi2  t-i20" style="text-align: left;">
+                            	[[${appealData.title}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">公开意愿</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	<span th:if="${appealData.isOpen==1}">公开</span>
+                            	<span th:if="${appealData.isOpen==2}">不公开</span>
+                        	</div>
+                        </div> 
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">提交时间</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	[[${appealData.createTime}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">信件内容</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	[[${appealData.content}]]
+                        	</div>
+                        </div>
+                    </div>
+                    <div class="blank15"></div>
+                    <div class="blank15"></div>
+                    <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none;">回复内容</div>
+                    <div class="table2 ">
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">写信目的</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                           		[[${appealData.purposeName}]]
+                         	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">信件状态</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                        		<span th:if="${appealData.sqStatus==0}">待处理</span>
+                        		<span th:if="${appealData.sqStatus==1}">办理中</span>
+                        		<span th:if="${appealData.sqStatus==3}">已办结</span>
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">办理部门</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                            	[[${appealData.proDeptName}]]
+                        	</div>
+                        </div>
+                        <div class="table2-tr">
+                            <div class="table2-td tdbgi2 tdw140 f14B">办理结果</div>
+                            <div class="table2-td tdbgi2 t-i20">
+                               	<span th:if="${appealData.sqStatus!=3}">
+                               		您好！您提交的信件我们已经收到，正在办理中。请您耐心等待！
+                               	</span>
+                        		<span th:if="${appealData.sqStatus==3}">
+                        			[[${appealData.replyContent}]]
+                        		</span>                         
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank15"></div>
+                    <div class="blank15"></div>
+                    <!--满意度-->
+                                        <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none; display: block;">满意度评价</div>
+                    <div class="m-tb" style="display: block;">
+                        <form id="satisForm" class="" method="post" action="submit.jsp" target="submitFrame">
+                            <input type="hidden" id="sq_id" name="sq_id" value="8894">
+                            <input type="hidden" id="sat_score_str" name="sat_score_str">
+                            <input type="hidden" id="raty_score_str" name="raty_score_str">
+                            <input type="hidden" id="action_type" name="action_type" value="saveScore">
+                            <div class="blank12"></div>
+                                                                                    <div class="op">
+                                <div class="op-lt">1、回复星级评价<input type="hidden" id="sat_score1" name="sat_score1" value="100"></div>
+                                <div class="op-rt">
+                                    <div class="raty_div" id="raty_1" style="width: 140px; cursor: pointer;"><img id="raty_1-1" src="/cms.files/images/jquery.raty/star-on-big.png" alt="1" title="1" class="raty_1">&nbsp;<img id="raty_1-2" src="/cms.files/images/jquery.raty/star-on-big.png" alt="2" title="2" class="raty_1">&nbsp;<img id="raty_1-3" src="/cms.files/images/jquery.raty/star-on-big.png" alt="3" title="3" class="raty_1">&nbsp;<img id="raty_1-4" src="/cms.files/images/jquery.raty/star-off-big.png" alt="4" title="4" class="raty_1">&nbsp;<img id="raty_1-5" src="/cms.files/images/jquery.raty/star-off-big.png" alt="5" title="5" class="raty_1"><input id="raty_1-score" type="hidden" name="score" value="3"></div>
+                                    <input type="hidden" id="raty_score1" name="raty_score1" value="3">
+                                </div>
+                            </div>
+                                                        <input type="hidden" id="totle" name="totle" value="1">
+                            <div class="blank1"></div>
+                            <div class="check">
+                                <span>2、短信验证码：</span>
+                                <input id="auth_code" name="auth_code" type="text" class="input_text" value="">
+                                <span class="f_red">*</span>
+                                <button class="getPhoneCode" onclick="getPhoneCode()" style="padding:3px;margin-left: 3px;" type="button">获取短信验证码</button>
+                            </div>
+                            <div class="blank15"></div>
+                            <div class="textLeft" style="text-align:center;height: 40px;overflow: hidden;width: 300px;margin: 0 auto;">
+                                <input style="width: 129px;height: 40px;border: none;margin: 0 5px;background: url(/images/queding.png) no-repeat;float: left;" class="btn_search" id="btnPublish" name="btnPublish" type="submit" value="">
+                                <a href="/info/iList.jsp?cat_id=10455" style="width: 129px;height: 40px;border: none;margin: 0 5px;background: url(/images/quxiao.png) no-repeat;display: block;    float: right;"></a>
+                                <!--input style="padding: 3px; margin: 0 5px;" type="button" value="统计结果" onclick="window.location.href='/info/iList.jsp?tm_id=141&sq_id=8894'"/-->
+                            </div>
+                            <div class="blank15"></div>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    $(".raty_div").raty({
+                                        path:'/cms.files/images/jquery.raty/',
+                                        hintList:  [null, null, null, null, null],
+                                        half:       true,
+                                        size:       24,
+                                        number:     5,
+                                        start:    3,
+                                        starHalf:   'star-half-big.png',
+                                        starOff:    'star-off-big.png',
+                                        starOn:     'star-on-big.png',
+                                        click: function(score, evt) {
+                                            $(this).next().val(score);
+                                        }
+                                    });
+                                });
+                                var index = 59;
+                                var myfun = "";
+                                var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                                function getPhoneCode()
+                                {
+                                    index = 119;
+                                    var no = "18082239346";
+                                    if(no != null && no != "")
+                                    {
+                                        if(!myreg.test(no)) 
+                                        { 
+                                            alert('手机号码获取失败！'); 
+                                            return false; 
+                                        } 
+                                        $.ajax({  
+                                            type: "GET", // 用POST方式传输  
+                                            dataType: "json", // 数据格式:JSON  
+                                            url: "/interface/sendMessage.jsp", // 目标地址  
+                                            data: "phone=" + no,
+                                            error: function (XMLHttpRequest, textStatus, errorThrown) {   
+
+                                            },  
+                                            success: function (data){   
+                                                //data = parseInt(data);  
+                                                if(!data.result){  
+                                                    alert("手机短信验证码发送失败！");
+                                                }else{  
+                                                    alert("手机短信验证码发送成功！");
+                                                    changeText();
+                                                    myfun = setInterval("changeText()",1000);
+                                                    $(".getPhoneCode").attr("disabled","disabled");
+                                                }
+                                            }  
+                                        });  
+                                    }else{  
+                                        alert("您的手机号码为空！");
+                                    }  
+                                }
+
+                                function changeText(){
+                                    var juanGo = $('.getPhoneCode');
+                                    juanGo.text("重新发送(" + index + ")");
+                                    index = index - 1;
+                                    if(index <= -1)
+                                    {
+                                        juanGo.removeAttr("disabled");
+                                        juanGo.text("获取短信验证码");
+                                        clearInterval(myfun);
+                                    }
+                                }
+                            </script>
+                        </form>
+                        <iframe id="submitFrame" name="submitFrame" src="" width="0" height="0" frameborder="0"></iframe>
+                    </div>
+                                        <!--满意度--> 
+                    <!--替结束-->                   
+
+                </div>
+				</div>
+			</div>
+			</th:block>
+		</div>
+		<!-- 底部 start -->
+		<div id="footer" th:replace="/other/footer.html"></div>
+		<!-- 底部 end -->
+	</body>
+</html>

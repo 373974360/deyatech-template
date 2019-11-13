@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <base href="./" th:href="'/template/'"/>
+		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
+		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/qita.skin/qita.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/list.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--/*-->
+		<script type="text/javascript" src="js/dev.js"></script>
+		<!--*/-->
+		<script type="text/javascript" src="js/all.js"></script>
+		<script th:inline="javascript">
+			function btnSearch(){
+				var ysqCode = $("#ysqCode").val();
+				var queryCode = $("#queryCode").val();
+				if(ysqCode == ""){
+					alert("请输入申请编码");
+					return false;
+				}
+				if(queryCode == ""){
+					alert("请输入查询码");
+					return false;
+				}
+				var pathName = [[${catalog.pathName}]];
+				location.href='/'+pathName+'_content_applyopen_search.jhtml?ysqCode='+ysqCode+'&queryCode='+queryCode;
+			}
+		</script>
+	</head>
+	<body>
+		<!-- 头部 start-->
+		<div id="header" th:replace="/other/header.html"></div>
+		<!-- 头部 end-->
+		<div class="g-bd m-cpfw">
+			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
+				<div class="g-1st-lt left" th:if="${catalogList!=null}">
+					<div class="m-lst-tnm">[[${catalog.name}]]</div>
+					<ul class="m-lst-nav">
+	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
+	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    </li>
+					</ul>
+				</div>
+				<div class="g-1st-lt left" th:if="${catalogList==null}">
+					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
+					<ul class="m-lst-nav">
+	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
+	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    </li>
+					</ul>
+				</div>
+			</th:block>
+			<div class="g-1st-rt right">
+				<div class="m-tnm">
+					<div class="m-rst-tnm left">
+						<a th:href="'/'+${catalog.pathName}+'_catagory.jhtml'">[[${catalog.name}]]</a>
+					</div>
+					<div class="m-local right" >
+						当前位置：
+						<span><a href="/" >首页</a></span>
+						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
+							<span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+						</th:block>
+					</div>
+				</div>
+				<div class="xjcx">
+                    <input type="hidden" value="10455" name="cat_id">
+                    <input type="hidden" value="17" name="tm_id">
+                    <span>申请编码</span><input id="ysqCode" name="ysqCode" value="" placeholder="请输入申请编码">
+                    <span>查询码</span><input id="queryCode" name="queryCode" value="" placeholder="请输入查询码">
+                    <button onclick="btnSearch()" type="button">查询</button>
+                    <span class="yxx"><a href="/ysqgk/ysqgkbl_catagory.jhtml">【我要申请】</a></span>
+                </div>
+				<div class="g-blk15"></div>
+				<th:block th:with="applyList = ${#ApplyOpenUtil.getApplyOpenlList(#{'modelId':'1194468064054259713'},pageNo,20)}">
+				<div class="m-xwzx">
+					<div class="table2 ">
+                        <div class="table2-tr">
+                            <div class="table2-th  tdw140" style="height:35px; width:110px;">受理编号</div>
+                            <div class="table2-th  tdw80" style="height:35px">申请时间</div>
+                             <div class="table2-th  tdw80" style="height:35px">回复时间</div>
+                            <div class="table2-th tdw80" style="height:35px">受理部门</div>
+                            <div class="table2-th  tdw80" style="height:35px; width:60px;">处理状态</div>
+                        </div>
+                        <div class="table2-tr" th:each="item : ${applyList.records}">
+                            <div class="table2-td tdbgi2 tdw140" style="width:110px;">[[${item.ysqCode}]]</div>
+                            <div class="table2-th  tdbgi2 tdw80">[[${#dates.format(item.createTime,'yyyy-MM-dd HH:mm')}]]</div>
+                            <div class="table2-th  tdbgi2 tdw80">[[${#dates.format(item.replyTime,'yyyy-MM-dd HH:mm')}]]</div>
+                            <div class="table2-th  tdbgi2 tdw80">
+                            	[[${item.deptName}]]
+                            </div>
+                            <div class="table2-td tdbgi2 tdw80" style="width:60px;">
+                                <span style="color:#cc0000;" th:if="${item.applyStatus==0}">待处理</span>
+                                <span style="color:#cc0000;" th:if="${item.applyStatus==1}">办理中</span>
+                                <span style="color:#cc0000;" th:if="${item.applyStatus==3}">已办结</span>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<!--翻页begin-->
+				<div class="m-lst-pg">
+					<span><a th:href="@{'/'+${catalog.pathName+'_list.jhtml'}}">首页</a></span>
+					<span th:if="${applyList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'_list_'+${applyList.current-1}+'.jhtml'}">上一页</a></span>
+					<span th:if="${applyList.current<applyList.pages}"><a th:href="@{'/'+${catalog.pathName}+'_list_'+${applyList.current+1}+'.jhtml'}">下一页</a></span>
+					<span><a th:href="@{'/'+${catalog.pathName}+'_list_'+${applyList.pages}+'.jhtml'}">末页</a></span>
+					<span th:text="'共'+${applyList.total}+'条记录'">共110条记录</span>
+					<span th:text="'共'+${applyList.pages}+'页'">共10页</span>
+					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,applyList.pages)}"  th:value="@{'/'+${catalog.pathName}+'_list_'+${p}+'.jhtml'}" th:selected="${p} == ${applyList.current}" th:text="${p}">1</option> </select>页 </span>
+				</div><!--翻页end-->
+			</div>
+			</th:block>
+		</div>
+		<!-- 底部 start -->
+		<div id="footer" th:replace="/other/footer.html"></div>
+		<!-- 底部 end -->
+	</body>
+</html>
