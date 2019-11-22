@@ -17,9 +17,10 @@
         <script type="text/javascript" src="js/sockjs.min.js"></script>
         <script type="text/javascript" src="js/interview.js"></script>
         <script th:inline="javascript">
-            var modelId = [[${interviewData.id}]];
-            webSocketMessage(modelId);
-            webSocketImage(modelId);
+            $(document).ready(function(){
+                var interview = [[${interviewData}]]; 
+                initInterview(interview);
+            });
         </script>
     </head>
     <body>
@@ -42,18 +43,29 @@
         </div>
         <div class="g-blk15"></div>
         <div class="m-ct" style="text-align: left;">
-            <p>主题：<span th:text="${interviewData.name}">[[${interviewData.name}]]</span></p>
-            <p>时间：<span th:text="${interviewData.time}">[[${interviewData.time}]]</span></p>
-            <p>简介：<span th:text="${interviewData.description}">[[${interviewData.description}]]</span></p>
-            <p>直播地址：<span th:text="${interviewData.liveUrl}">[[${interviewData.liveUrl}]]</span></p>
-            <p>视频地址：<span th:text="${interviewData.videoUrl}">[[${interviewData.videoUrl}]]</span></p>
-            <p>嘉宾简介</p>
-            <ul>
-                <li th:each="guest: ${interviewData.guestVoList}">
-                    <b>[[${guest.name}]]</b>
-                    <p>[[${guest.job}]]</p>
-                </li>
-            </ul>
+            <div style="width:450px;float:left;">
+                <video width="420">
+                    <source th:src="${interviewData.videoUrl}" type="video/mp4" />
+                </video>
+            </div>
+            <div style="width:600px;float: right;">
+                <p><span style="font-weight: bold;">主题：</span><span th:text="${interviewData.name}">[[${interviewData.name}]]</span></p>
+                <p><span style="font-weight: bold;">时间：</span><span th:text="${interviewData.time}">[[${interviewData.time}]]</span></p>
+                <p><span style="font-weight: bold;">简介：</span><span th:text="${interviewData.description}">[[${interviewData.description}]]</span></p>
+                <p>直播地址：<span th:text="${interviewData.liveUrl}">[[${interviewData.liveUrl}]]</span></p>
+                <p><span style="font-weight: bold;">嘉宾简介</span></p>
+                <ul>
+                    <li th:each="guest: ${interviewData.guestVoList}">
+                        [[${guest.name}]] [[${guest.job}]]
+                    </li>
+                </ul>
+            </div>
+            <div class="g-blk15"></div>
+            <p>图片直播</p>
+            <div id="picLive"><ul></ul></div>
+            <p>文字直播</p>
+            <div id="fontLive"><ul></ul></div>
+            <div class="g-blk15"></div>
         </div>
     </div>
     <!-- 底部 start -->

@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="js/dev.js"></script>
 		<!--*/-->
 		<script type="text/javascript" src="js/all.js"></script>
+        <script type="text/javascript" src="js/appeal.js"></script>
 	</head>
 	<body>
 		<!-- 头部 start-->
@@ -126,111 +127,45 @@
                     <div class="blank15"></div>
                     <div class="blank15"></div>
                     <!--满意度-->
-                                        <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none; display: block;">满意度评价</div>
-                    <div class="m-tb" style="display: block;">
-                        <form id="satisForm" class="" method="post" action="submit.jsp" target="submitFrame">
-                            <input type="hidden" id="sq_id" name="sq_id" value="8894">
-                            <input type="hidden" id="sat_score_str" name="sat_score_str">
-                            <input type="hidden" id="raty_score_str" name="raty_score_str">
-                            <input type="hidden" id="action_type" name="action_type" value="saveScore">
-                            <div class="blank12"></div>
-                                                                                    <div class="op">
-                                <div class="op-lt">1、回复星级评价<input type="hidden" id="sat_score1" name="sat_score1" value="100"></div>
-                                <div class="op-rt">
-                                    <div class="raty_div" id="raty_1" style="width: 140px; cursor: pointer;"><img id="raty_1-1" src="/cms.files/images/jquery.raty/star-on-big.png" alt="1" title="1" class="raty_1">&nbsp;<img id="raty_1-2" src="/cms.files/images/jquery.raty/star-on-big.png" alt="2" title="2" class="raty_1">&nbsp;<img id="raty_1-3" src="/cms.files/images/jquery.raty/star-on-big.png" alt="3" title="3" class="raty_1">&nbsp;<img id="raty_1-4" src="/cms.files/images/jquery.raty/star-off-big.png" alt="4" title="4" class="raty_1">&nbsp;<img id="raty_1-5" src="/cms.files/images/jquery.raty/star-off-big.png" alt="5" title="5" class="raty_1"><input id="raty_1-score" type="hidden" name="score" value="3"></div>
-                                    <input type="hidden" id="raty_score1" name="raty_score1" value="3">
+                    <div style="text-align: center;padding: 10px 0;font-size: 18px;color: #2974cf;font-weight: bold;border: 1px solid #cccccc;border-bottom: none; display: block;">满意度评价</div>
+                        <div class="m-tb" style="display: block;">
+                            <form id="satisForm">
+                                <input type="hidden" id="appealId" name="appealId" th:value="${appealData.id}"><!--信件ID-->
+                                <input type="hidden" id="actionType" name="actionType" value="insertAppealSatis"><!--表单类型-->
+                                <input type="hidden" name="random" id="random" value=""><!--验证码KEY-->
+                                <div class="blank12"></div>
+                                <div class="op">
+                                    <div class="op-lt">满意度：</div>
+                                    <div class="op-rt">
+                                        <span th:each="satis,satisStat : ${#AppealUtil.getSatisfactionList()}" th:switch="${satisStat.index}">
+                                            <input name="satisId" th:case="0" checked type="radio" th:value="${satis.id}"/>
+                                            <input name="satisId" th:case="*" type="radio" th:value="${satis.id}"/>[[${satis.name}]]
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                                                        <input type="hidden" id="totle" name="totle" value="1">
-                            <div class="blank1"></div>
-                            <div class="check">
-                                <span>2、短信验证码：</span>
-                                <input id="auth_code" name="auth_code" type="text" class="input_text" value="">
-                                <span class="f_red">*</span>
-                                <button class="getPhoneCode" onclick="getPhoneCode()" style="padding:3px;margin-left: 3px;" type="button">获取短信验证码</button>
-                            </div>
-                            <div class="blank15"></div>
-                            <div class="textLeft" style="text-align:center;height: 40px;overflow: hidden;width: 300px;margin: 0 auto;">
-                                <input style="width: 129px;height: 40px;border: none;margin: 0 5px;background: url(/images/queding.png) no-repeat;float: left;" class="btn_search" id="btnPublish" name="btnPublish" type="submit" value="">
-                                <a href="/info/iList.jsp?cat_id=10455" style="width: 129px;height: 40px;border: none;margin: 0 5px;background: url(/images/quxiao.png) no-repeat;display: block;    float: right;"></a>
-                                <!--input style="padding: 3px; margin: 0 5px;" type="button" value="统计结果" onclick="window.location.href='/info/iList.jsp?tm_id=141&sq_id=8894'"/-->
-                            </div>
-                            <div class="blank15"></div>
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $(".raty_div").raty({
-                                        path:'/cms.files/images/jquery.raty/',
-                                        hintList:  [null, null, null, null, null],
-                                        half:       true,
-                                        size:       24,
-                                        number:     5,
-                                        start:    3,
-                                        starHalf:   'star-half-big.png',
-                                        starOff:    'star-off-big.png',
-                                        starOn:     'star-on-big.png',
-                                        click: function(score, evt) {
-                                            $(this).next().val(score);
-                                        }
-                                    });
-                                });
-                                var index = 59;
-                                var myfun = "";
-                                var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-                                function getPhoneCode()
-                                {
-                                    index = 119;
-                                    var no = "18082239346";
-                                    if(no != null && no != "")
-                                    {
-                                        if(!myreg.test(no)) 
-                                        { 
-                                            alert('手机号码获取失败！'); 
-                                            return false; 
-                                        } 
-                                        $.ajax({  
-                                            type: "GET", // 用POST方式传输  
-                                            dataType: "json", // 数据格式:JSON  
-                                            url: "/interface/sendMessage.jsp", // 目标地址  
-                                            data: "phone=" + no,
-                                            error: function (XMLHttpRequest, textStatus, errorThrown) {   
-
-                                            },  
-                                            success: function (data){   
-                                                //data = parseInt(data);  
-                                                if(!data.result){  
-                                                    alert("手机短信验证码发送失败！");
-                                                }else{  
-                                                    alert("手机短信验证码发送成功！");
-                                                    changeText();
-                                                    myfun = setInterval("changeText()",1000);
-                                                    $(".getPhoneCode").attr("disabled","disabled");
-                                                }
-                                            }  
-                                        });  
-                                    }else{  
-                                        alert("您的手机号码为空！");
-                                    }  
-                                }
-
-                                function changeText(){
-                                    var juanGo = $('.getPhoneCode');
-                                    juanGo.text("重新发送(" + index + ")");
-                                    index = index - 1;
-                                    if(index <= -1)
-                                    {
-                                        juanGo.removeAttr("disabled");
-                                        juanGo.text("获取短信验证码");
-                                        clearInterval(myfun);
-                                    }
-                                }
-                            </script>
-                        </form>
-                        <iframe id="submitFrame" name="submitFrame" src="" width="0" height="0" frameborder="0"></iframe>
+                                <div class="blank1"></div>
+                                <div class="op">
+                                    <div class="op-lt">验证码：</div>
+                                    <div class="op-rt">
+                                        <input id="verifyCode" name="verifyCode" type="text" class="" value=""  maxlength="4" style="width:78px;" />
+                                        <img alt="" width="80" height="22" id="img" align="absmiddle"/>&nbsp;&nbsp;
+                                        <span class="f_red">*</span>
+                                        <a href="javascript:changeCreateImage();">看不清，请换一张</a>
+                                    </div>
+                                </div>
+                                <div class="blank15"></div>
+                                <div class="textLeft" style="text-align:center;height: 40px;overflow: hidden;width: 300px;margin: 0 auto;">
+                                    <input id="btnOK" name="btnOK" type="button" onclick="insertAppealSatis()" value="提交"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div class="blank15"></div>
+                            </form>
+                        </div>
+                         <span th:each="count : ${#AppealUtil.getAppealSatisCountByAppealId(appealData.id)}">
+                            [[${count.name}]]:[[${count.totle}]]
+                        </span>
+                        <!--满意度--> 
+                        <!--替结束-->
                     </div>
-                                        <!--满意度--> 
-                    <!--替结束-->                   
-
-                </div>
 				</div>
 			</div>
 			</th:block>
