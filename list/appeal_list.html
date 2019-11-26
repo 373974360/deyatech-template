@@ -75,6 +75,96 @@
                     <button onclick="btnSearch()" type="button">查询</button>
                     <span class="yxx"><a th:href="@{'/'+${catalog.pathName+'_form_appeal_1191557751222882305.jhtml'}}">【我要写信】</a></span>
                 </div>
+				<div class="xjcx">
+                    <span>
+                    	本年度：提交：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'years'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	未受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'years','countType':'wsl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'years','countType':'sl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	办结：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'years','countType':'bj'})}" th:text="${count}"></span>
+                    </span>
+                </div>
+				<div class="xjcx">
+                    <span>
+                    	昨日：提交：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'yesterday'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	未受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'yesterday','countType':'wsl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'yesterday','countType':'sl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	办结：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'yesterday','countType':'bj'})}" th:text="${count}"></span>
+                    </span>
+                </div>
+				<div class="xjcx">
+                    <span>
+                    	上月：提交：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'ultimo'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	未受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'ultimo','countType':'wsl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'ultimo','countType':'sl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	办结：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'ultimo','countType':'bj'})}" th:text="${count}"></span>
+                    </span>
+                </div>
+				<div class="xjcx">
+                    <span>
+                    	本月：提交：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'instant'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	未受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'instant','countType':'wsl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'instant','countType':'sl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	办结：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'instant','countType':'bj'})}" th:text="${count}"></span>
+                    </span>
+                </div>
+				<div class="xjcx">
+                    <span>
+                    	今日：提交：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'curday'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	未受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'curday','countType':'wsl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	受理：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'curday','countType':'sl'})}" th:text="${count}"></span>
+                    </span>
+                    <span>
+                    	办结：
+                    	<span th:with="count = ${#AppealUtil.getAllAppealCount(#{'modelId':'1191557751222882305','countData':'curday','countType':'bj'})}" th:text="${count}"></span>
+                    </span>
+                </div>
 				<div class="g-blk15"></div>
 				<th:block th:with="appealList = ${#AppealUtil.getAppealList(#{'modelId':'1191557751222882305'},pageNo,1)}">
 				<div class="m-xwzx">

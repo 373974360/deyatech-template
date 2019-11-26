@@ -19,8 +19,8 @@
                 <form id="searchform" name="searchform" th:action="'/search.jhtml'"  method="get" target="_self">
                     <input class="sc_text" name="keywords" value="请输入关键字" onfocus="if (this.value == '请输入关键字') {this.value = '';}"
                            onblur="if (this.value == '') {this.value = '请输入关键字';}" type="text">
-                    <input name="siteId" type="hidden" th:value="${siteId}" value=""/>
-                    <input class="sc_btn right"  value="" type="submit">
+                    <input name="siteId" type="hidden" th:value="${site.id}" value=""/>
+                    <input class="sc_btn right" value="" type="submit">
                 </form>
             </div>
         </div>
