@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+        <base href="./" th:href="'/template/'"/>
+		<title>德雅通科技有限公司-搜索结果</title>
 		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
 		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
 		<link rel="stylesheet" type="text/css" href="styles/qita.skin/qita.css"/>
@@ -13,6 +15,15 @@
 		<script type="text/javascript" src="js/all.js"></script>
 	</head>
 	<body>
-		自定义模板
+		<!-- 头部 start-->
+		<div id="header" th:replace="/other/头部通用.html"></div>
+
+		<!-- 头部 end-->
+		<div class="g-bd">
+			<p>信息检索</p>
+		</div>
+		<!-- 底部 start -->
+		<div id="footer" th:replace="/other/底部通用.html"></div>
+		<!-- 底部 end -->
 	</body>
 </html>

@@ -12,8 +12,8 @@
             <ul class="left">
                 <li><a href="/" th:href="'/'">首页</a></li>
                 <li th:each="catalog : ${#CataData.getCatalogChildrenTree(site.id,0)}">
-			      <a th:href="'/'+${catalog.pathName+'_catagory.jhtml'}" th:text="${catalog.name}">[[${catalog.name}]]</a>
-			  </li>
+                  <a th:href="${catalog.linkUrl}" th:text="${catalog.name}">[[${catalog.name}]]</a>
+                </li>
             </ul>
             <div class="g-search right">
                 <form id="searchform" name="searchform" th:action="'/search.jhtml'"  method="get" target="_self">

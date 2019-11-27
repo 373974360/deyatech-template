@@ -33,7 +33,7 @@
 	</head>
 	<body>
 		<!-- 头部 start-->
-		<div id="header" th:replace="/other/header.html"></div>
+		<div id="header" th:replace="/other/头部通用.html"></div>
 		<!-- 头部 end-->
 		<div class="g-bd m-cpfw">
 			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
@@ -41,7 +41,7 @@
 					<div class="m-lst-tnm">[[${catalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -49,7 +49,7 @@
 					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -57,13 +57,13 @@
 			<div class="g-1st-rt right">
 				<div class="m-tnm">
 					<div class="m-rst-tnm left">
-						<a th:href="'/'+${catalog.pathName}+'_catagory.jhtml'">[[${catalog.name}]]</a>
+						<a th:href="'/'+${catalog.pathName}+'/list.jhtml'">[[${catalog.name}]]</a>
 					</div>
 					<div class="m-local right" >
 						当前位置：
 						<span><a href="/" >首页</a></span>
 						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-							<span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+							<span>></span><span><a th:href="'/'+${c.pathName}+'/list.jhtml'">[[${c.name}]]</a></span>
 						</th:block>
 					</div>
 				</div>
@@ -73,7 +73,7 @@
                     <span>信件编码</span><input id="sqCode" name="sqCode" value="" placeholder="请输入信件编码">
                     <span>查询码</span><input id="queryCode" name="queryCode" value="" placeholder="请输入查询码">
                     <button onclick="btnSearch()" type="button">查询</button>
-                    <span class="yxx"><a th:href="@{'/'+${catalog.pathName+'_form_appeal_1191557751222882305.jhtml'}}">【我要写信】</a></span>
+                    <span class="yxx"><a th:href="@{'/'+${catalog.pathName+'/form/appeal/1191557751222882305.jhtml'}}">【我要写信】</a></span>
                 </div>
 				<div class="xjcx">
                     <span>
@@ -180,7 +180,7 @@
                         <div class="table2-tr" th:each="item : ${appealList.records}">
                             <div class="table2-td tdbgi2 tdw140" style="width:110px;">[[${item.sqCode}]]</div>
                             <div class="table2-td tdbgi2 t-i20" style="width:160px;overflow: hidden;">
-                            	<a th:href="'/'+${catalog.pathName}+'_content_appeal_'+${item.id}+'.jhtml'">[[${item.title}]]</a>
+                            	<a th:href="'/'+${catalog.pathName}+'/details/appeal/'+${item.id}+'.jhtml'">[[${item.title}]]</a>
                             </div>
                             <div class="table2-th  tdbgi2 tdw80">[[${#dates.format(item.createTime,'yyyy-MM-dd HH:mm')}]]</div>
                             <div class="table2-th  tdbgi2 tdw80">[[${#dates.format(item.replyTime,'yyyy-MM-dd HH:mm')}]]</div>
@@ -197,19 +197,19 @@
 				</div>
 				<!--翻页begin-->
 				<div class="m-lst-pg">
-					<span><a th:href="@{'/'+${catalog.pathName+'_catagory.jhtml'}}">首页</a></span>
-					<span th:if="${appealList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'_catagory_'+${appealList.current-1}+'.jhtml'}">上一页</a></span>
-					<span th:if="${appealList.current<appealList.pages}"><a th:href="@{'/'+${catalog.pathName}+'_catagory_'+${appealList.current+1}+'.jhtml'}">下一页</a></span>
-					<span><a th:href="@{'/'+${catalog.pathName}+'_catagory_'+${appealList.pages}+'.jhtml'}">末页</a></span>
+					<span><a th:href="@{'/'+${catalog.pathName+'/list.jhtml'}}">首页</a></span>
+					<span th:if="${appealList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${appealList.current-1}+'.jhtml'}">上一页</a></span>
+					<span th:if="${appealList.current<appealList.pages}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${appealList.current+1}+'.jhtml'}">下一页</a></span>
+					<span><a th:href="@{'/'+${catalog.pathName}+'/list/'+${appealList.pages}+'.jhtml'}">末页</a></span>
 					<span th:text="'共'+${appealList.total}+'条记录'">共110条记录</span>
 					<span th:text="'共'+${appealList.pages}+'页'">共10页</span>
-					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,appealList.pages)}"  th:value="@{'/'+${catalog.pathName}+'_catagory_'+${p}+'.jhtml'}" th:selected="${p} == ${appealList.current}" th:text="${p}">1</option> </select>页 </span>
+					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,appealList.pages)}"  th:value="@{'/'+${catalog.pathName}+'/list/'+${p}+'.jhtml'}" th:selected="${p} == ${appealList.current}" th:text="${p}">1</option> </select>页 </span>
 				</div><!--翻页end-->
 			</div>
 			</th:block>
 		</div>
 		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/footer.html"></div>
+		<div id="footer" th:replace="/other/底部通用.html"></div>
 		<!-- 底部 end -->
 	</body>
 </html>

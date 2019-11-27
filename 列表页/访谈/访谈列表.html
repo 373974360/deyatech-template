@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<!-- 头部 start-->
-		<div id="header" th:replace="/other/header.html"></div>
+		<div id="header" th:replace="/other/头部通用.html"></div>
 		<!-- 头部 end-->
 		<div class="g-bd m-cpfw">
 			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
@@ -24,7 +24,7 @@
 					<div class="m-lst-tnm">[[${catalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -32,7 +32,7 @@
 					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'_catagory.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -40,13 +40,13 @@
 			<div class="g-1st-rt right">
 				<div class="m-tnm">
 					<div class="m-rst-tnm left">
-						<a th:href="'/'+${catalog.pathName}+'_catagory.jhtml'">[[${catalog.name}]]</a>
+						<a th:href="'/'+${catalog.pathName}+'/list.jhtml'">[[${catalog.name}]]</a>
 					</div>
 					<div class="m-local right" >
 						当前位置：
 						<span><a href="/" >首页</a></span>
 						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-							<span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+							<span>></span><span><a th:href="'/'+${c.pathName}+'/list.jhtml'">[[${c.name}]]</a></span>
 						</th:block>
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 					<ul class="u-list2">
 						<li th:each="item : ${interviewList.records}">
 							<div class="u-list2-tt">
-								<a target="_blank" th:href="'/'+${catalog.pathName}+'_content_interview_'+${item.id}+'.jhtml'" th:text="${item.name}">[[${item.name}]]</a>
+								<a target="_blank" th:href="'/'+${catalog.pathName}+'/details/interview/'+${item.id}+'.jhtml'" th:text="${item.name}">[[${item.name}]]</a>
 								<span th:text="${#dates.format(item.createTime,'yyyy-MM-dd')}">[[${#dates.format(item.createTime,'yyyy-MM-dd')}]]</span>
 								<span th:if="${item.status==0}">【预告】</span>
 								<span th:if="${item.status==1}">【直播】</span>
@@ -67,19 +67,19 @@
 				</div>
 				<!--翻页begin-->
 				<div class="m-lst-pg">
-					<span><a th:href="@{'/'+${catalog.pathName+'_catagory.jhtml'}}">首页</a></span>
-					<span th:if="${interviewList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'_catagory_'+${interviewList.current-1}+'.jhtml'}">上一页</a></span>
-					<span th:if="${interviewList.current<interviewList.pages}"><a th:href="@{'/'+${catalog.pathName}+'_catagory_'+${interviewList.current+1}+'.jhtml'}">下一页</a></span>
-					<span><a th:href="@{'/'+${catalog.pathName}+'_catagory_'+${interviewList.pages}+'.jhtml'}">末页</a></span>
+					<span><a th:href="@{'/'+${catalog.pathName+'/list.jhtml'}}">首页</a></span>
+					<span th:if="${interviewList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${interviewList.current-1}+'.jhtml'}">上一页</a></span>
+					<span th:if="${interviewList.current<interviewList.pages}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${interviewList.current+1}+'.jhtml'}">下一页</a></span>
+					<span><a th:href="@{'/'+${catalog.pathName}+'/list/'+${interviewList.pages}+'.jhtml'}">末页</a></span>
 					<span th:text="'共'+${interviewList.total}+'条记录'">共110条记录</span>
 					<span th:text="'共'+${interviewList.pages}+'页'">共10页</span>
-					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,interviewList.pages)}"  th:value="@{'/'+${catalog.pathName}+'_catagory_'+${p}+'.jhtml'}" th:selected="${p} == ${interviewList.current}" th:text="${p}">1</option> </select>页 </span>
+					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,interviewList.pages)}"  th:value="@{'/'+${catalog.pathName}+'/list/'+${p}+'.jhtml'}" th:selected="${p} == ${interviewList.current}" th:text="${p}">1</option> </select>页 </span>
 				</div><!--翻页end-->
 			</div>
 			</th:block>
 		</div>
 		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/footer.html"></div>
+		<div id="footer" th:replace="/other/底部通用.html"></div>
 		<!-- 底部 end -->
 	</body>
 </html>
