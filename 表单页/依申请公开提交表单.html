@@ -84,7 +84,7 @@
                                     <tr>
                                         <th>受理部门：</th>
                                         <td colspan="3">
-                                            <select name="deptId" id="deptId" style="width:125px;" class="input_select valid" th:with="deptList = ${#ApplyOpenUtil.getPartDept(modelData.id)}">
+                                            <select name="deptId" id="deptId" style="width:125px;" class="input_select valid" th:with="deptList = ${#ApplyOpenData.getPartDept(modelData.id)}">
                                                 <option selected value="">请选择受理部门</option>
                                                 <option value="-1" style="color:red;">我不知道部门</option>
                                                 <option th:each="item : ${deptList}" th:value="${item.id}" th:text="${item.name}">[[${item.name}]]</option>         

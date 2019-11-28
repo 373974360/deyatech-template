@@ -74,7 +74,7 @@
                                 <tr>
                                     <th>受理部门：</th>
                                     <td>
-                                        <select name="deptId" id="deptId" style="width:125px;" class="input_select valid" th:with="deptList = ${#AppealUtil.getPartDept(modelData.id)}">
+                                        <select name="deptId" id="deptId" style="width:125px;" class="input_select valid" th:with="deptList = ${#AppealData.getPartDept(modelData.id)}">
                                             <option selected value="">请选择受理部门</option>
                                             <option value="-1" style="color:red;">我不知道部门</option>
                                             <option th:each="item : ${deptList}" th:value="${item.id}" th:text="${item.name}">[[${item.name}]]</option>         
@@ -86,7 +86,7 @@
                                 <tr>
                                     <th>写信目的：</th>
                                     <td>
-                                    	<th:block th:with="purposeList = ${#AppealUtil.getPurposeList()}">
+                                    	<th:block th:with="purposeList = ${#AppealData.getPurposeList()}">
                                     		<span th:each="item,itemStat : ${purposeList}">
 	                                            <input type="radio" th:value="${item.id}" th:if="${itemStat.index==0}" checked="true" name="purId" id="purId" class="radioClass input_radio">
 	                                            <input type="radio" th:value="${item.id}" th:if="${itemStat.index > 0}" name="purId" id="purId" class="radioClass input_radio">

@@ -51,12 +51,12 @@
 					</div>
 				</div>
 				<div class="g-blk15"></div>
-				<th:block th:with="interviewList = ${#InterviewUtil.getInterviewList(#{'siteId':site.id,'status':'0,1,2'},pageNo,5)}">
+				<th:block th:with="interviewList = ${#InterviewData.getInterviewList(#{'siteId':site.id,'catalogId':catalog.id,'status':'0,1,2'},pageNo,5)}">
 				<div class="m-xwzx">
 					<ul class="u-list2">
 						<li th:each="item : ${interviewList.records}">
 							<div class="u-list2-tt">
-								<a target="_blank" th:href="'/'+${catalog.pathName}+'/details/interview/'+${item.id}+'.jhtml'" th:text="${item.name}">[[${item.name}]]</a>
+								<a target="_blank" th:href="${item.url}" th:text="${item.name}">[[${item.name}]]</a>
 								<span th:text="${#dates.format(item.createTime,'yyyy-MM-dd')}">[[${#dates.format(item.createTime,'yyyy-MM-dd')}]]</span>
 								<span th:if="${item.status==0}">【预告】</span>
 								<span th:if="${item.status==1}">【直播】</span>
@@ -65,16 +65,18 @@
 						</li>
 					</ul>
 				</div>
-				<!--翻页begin-->
-				<div class="m-lst-pg">
-					<span><a th:href="@{'/'+${catalog.pathName+'/list.jhtml'}}">首页</a></span>
-					<span th:if="${interviewList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${interviewList.current-1}+'.jhtml'}">上一页</a></span>
-					<span th:if="${interviewList.current<interviewList.pages}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${interviewList.current+1}+'.jhtml'}">下一页</a></span>
-					<span><a th:href="@{'/'+${catalog.pathName}+'/list/'+${interviewList.pages}+'.jhtml'}">末页</a></span>
-					<span th:text="'共'+${interviewList.total}+'条记录'">共110条记录</span>
-					<span th:text="'共'+${interviewList.pages}+'页'">共10页</span>
-					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,interviewList.pages)}"  th:value="@{'/'+${catalog.pathName}+'/list/'+${p}+'.jhtml'}" th:selected="${p} == ${interviewList.current}" th:text="${p}">1</option> </select>页 </span>
-				</div><!--翻页end-->
+                <!--翻页begin-->
+                <div class="m-lst-pg">
+                    <span><a th:href="${interviewList.firstPageUrl}">首页</a></span>
+                    <span><a th:href="${interviewList.prePageUrl}">上一页</a></span>
+                    <span><a th:href="${interviewList.nextPageUrl}">下一页</a></span>
+                    <span><a th:href="${interviewList.endPageUrl}">末页</a></span>
+                    <span th:text="'共'+${interviewList.total}+'条记录'">共110条记录</span>
+                    <span th:text="'共'+${interviewList.pages}+'页'">共10页</span>
+                    <span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> 
+                        <option th:each="p,status : ${interviewList.pageList}" th:value="${p}" th:selected="${status.index+1} == ${interviewList.current}" th:text="${status.index+1}">[[${status.index+1}]]</option> 
+                    </select>页 </span>
+                </div><!--翻页end-->
 			</div>
 			</th:block>
 		</div>

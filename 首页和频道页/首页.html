@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>德雅通科技有限公司</title>
+		<title>德雅通科技有限公司include</title>
         <base href="/template/"/>
         <link rel="stylesheet" type="text/css" href="styles/group.css"/>
         <link rel="stylesheet" type="text/css" href="styles/index.skin/index.css"/>
@@ -15,7 +15,9 @@
 	</head>
 <body>
 	<div class="g-bg">
-		<div id="header" th:replace="/other/头部通用.html"></div>
+        <!-- 底部 start -->
+        <!--#include virtual='/template/other/头部通用.html'-->
+        <!-- 底部 end -->
 		<div class="g-1st">
 			<h2>从&nbsp;数&nbsp;据&nbsp;到&nbsp;智&nbsp;能</h2>
 			<h3>互联网 + 政务服务 + 大数据</h3>
@@ -139,8 +141,8 @@
             </ul>
         </div>
 	</div>
-	<!-- 底部 start -->
-	<div id="footer" th:replace="/other/底部通用.html"></div>
-	<!-- 底部 end -->
+    <!-- 底部 start -->
+    <!--#include virtual='/template/other/底部通用.html'-->
+    <!-- 底部 end -->
 </body>
 </html>

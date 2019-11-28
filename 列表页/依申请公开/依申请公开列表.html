@@ -27,7 +27,7 @@
 					return false;
 				}
 				var pathName = [[${catalog.pathName}]];
-				location.href='/'+pathName+'/details/applyopen/search.jhtml?ysqCode='+ysqCode+'&queryCode='+queryCode;
+				location.href='/'+pathName+'/details/applyopen/search.html?ysqCode='+ysqCode+'&queryCode='+queryCode;
 			}
 		</script>
 	</head>
@@ -76,7 +76,7 @@
                     <span class="yxx"><a href="/ysqgk/ysqgkbl/list.jhtml">【我要申请】</a></span>
                 </div>
 				<div class="g-blk15"></div>
-				<th:block th:with="applyList = ${#ApplyOpenUtil.getApplyOpenlList(#{'modelId':'1194468064054259713'},pageNo,20)}">
+				<th:block th:with="applyList = ${#ApplyOpenData.getApplyOpenlList(#{'modelId':'1194468064054259713','siteId':site.id,'catId':catalog.id},pageNo,20)}">
 				<div class="m-xwzx">
 					<div class="table2 ">
                         <div class="table2-tr">
@@ -87,7 +87,9 @@
                             <div class="table2-th  tdw80" style="height:35px; width:60px;">处理状态</div>
                         </div>
                         <div class="table2-tr" th:each="item : ${applyList.records}">
-                            <div class="table2-td tdbgi2 tdw140" style="width:110px;">[[${item.ysqCode}]]</div>
+                            <div class="table2-td tdbgi2 tdw140" style="width:110px;">
+                            	<a th:href="${item.url}">[[${item.ysqCode}]]</a>
+                        	</div>
                             <div class="table2-th  tdbgi2 tdw80">[[${#dates.format(item.createTime,'yyyy-MM-dd HH:mm')}]]</div>
                             <div class="table2-th  tdbgi2 tdw80">[[${#dates.format(item.replyTime,'yyyy-MM-dd HH:mm')}]]</div>
                             <div class="table2-th  tdbgi2 tdw80">
@@ -101,16 +103,18 @@
                         </div>
                     </div>
 				</div>
-				<!--翻页begin-->
-				<div class="m-lst-pg">
-					<span><a th:href="@{'/'+${catalog.pathName+'/list.jhtml'}}">首页</a></span>
-					<span th:if="${applyList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${applyList.current-1}+'.jhtml'}">上一页</a></span>
-					<span th:if="${applyList.current<applyList.pages}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${applyList.current+1}+'.jhtml'}">下一页</a></span>
-					<span><a th:href="@{'/'+${catalog.pathName}+'/list/'+${applyList.pages}+'.jhtml'}">末页</a></span>
-					<span th:text="'共'+${applyList.total}+'条记录'">共110条记录</span>
-					<span th:text="'共'+${applyList.pages}+'页'">共10页</span>
-					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,applyList.pages)}"  th:value="@{'/'+${catalog.pathName}+'/list/'+${p}+'.jhtml'}" th:selected="${p} == ${applyList.current}" th:text="${p}">1</option> </select>页 </span>
-				</div><!--翻页end-->
+                <!--翻页begin-->
+                <div class="m-lst-pg">
+                    <span><a th:href="${applyList.firstPageUrl}">首页</a></span>
+                    <span><a th:href="${applyList.prePageUrl}">上一页</a></span>
+                    <span><a th:href="${applyList.nextPageUrl}">下一页</a></span>
+                    <span><a th:href="${applyList.endPageUrl}">末页</a></span>
+                    <span th:text="'共'+${applyList.total}+'条记录'">共110条记录</span>
+                    <span th:text="'共'+${applyList.pages}+'页'">共10页</span>
+                    <span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> 
+                        <option th:each="p,status : ${applyList.pageList}" th:value="${p}" th:selected="${status.index+1} == ${applyList.current}" th:text="${status.index+1}">[[${status.index+1}]]</option> 
+                    </select>页 </span>
+                </div><!--翻页end-->
 			</div>
 			</th:block>
 		</div>

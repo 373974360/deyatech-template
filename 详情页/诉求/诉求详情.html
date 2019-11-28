@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-        <base href="./" th:href="'/template/'"/>
+        <base href="/template/"/>
 		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
 		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
 		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
@@ -137,7 +137,7 @@
                                 <div class="op">
                                     <div class="op-lt">满意度：</div>
                                     <div class="op-rt">
-                                        <span th:each="satis,satisStat : ${#AppealUtil.getSatisfactionList()}" th:switch="${satisStat.index}">
+                                        <span th:each="satis,satisStat : ${#AppealData.getSatisfactionList()}" th:switch="${satisStat.index}">
                                             <input name="satisId" th:case="0" checked type="radio" th:value="${satis.id}"/>
                                             <input name="satisId" th:case="*" type="radio" th:value="${satis.id}"/>[[${satis.name}]]
                                         </span>
@@ -160,7 +160,7 @@
                                 <div class="blank15"></div>
                             </form>
                         </div>
-                         <span th:each="count : ${#AppealUtil.getAppealSatisCountByAppealId(appealData.id)}">
+                         <span th:each="count : ${#AppealData.getAppealSatisCountByAppealId(appealData.id)}">
                             [[${count.name}]]:[[${count.totle}]]
                         </span>
                         <!--满意度--> 
