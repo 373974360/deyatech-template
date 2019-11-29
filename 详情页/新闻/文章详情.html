@@ -20,9 +20,9 @@
 		<script type="text/javascript" src="js/jquery.caroufredsel-6.0.4-packed.js"></script>
 	</head>
 	<body>
-	<!-- 头部 start-->
-	<div id="header" th:replace="/other/头部通用.html"></div>
-	<!-- 头部 end-->
+        <!-- 底部 start -->
+        <!--#include virtual='/template/其他/头部通用.html'-->
+        <!-- 底部 end -->
 	<div class="g-bd">
 		<div class="g-blk15"></div>
 	    <div class="g-blk15"></div>
@@ -46,7 +46,7 @@
 			<div class="g-blk5"></div>
 			<div class="m-ct-crm">
 				<span>发布人：<span th:text="${infoData.author}">[[${infoData.author}]]</span></span>
-				<span>日期：<span th:text="${infoData.resourcePublicationDate}">[[${infoData.resourcePublicationDate}]]</span></span>
+				<span>日期：<span th:text="${#dates.format(infoData.resourcePublicationDate,'yyyy-MM-dd')}"></span></span>
 				<span>浏览次数：<span id="viewCount">0</span></span>  <!--todo 此处需要动态加载浏览次数-->
 				<span class="printIco"><a href="javascript:window.print();">打印</a></span>
 				<span class="switchsize ">
@@ -79,8 +79,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- 底部 start -->
-	<div id="footer" th:replace="/other/底部通用.html"></div>
-	<!-- 底部 end -->
+	    <!-- 底部 start -->
+	    <!--#include virtual='/include/footer.html'-->
+	    <!-- 底部 end -->
 	</body>
 </html>

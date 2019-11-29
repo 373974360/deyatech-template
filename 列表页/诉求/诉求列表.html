@@ -33,7 +33,7 @@
 	</head>
 	<body>
 		<!-- 头部 start-->
-		<div id="header" th:replace="/other/头部通用.html"></div>
+		<div id="header" th:replace="/其他/头部通用.html"></div>
 		<!-- 头部 end-->
 		<div class="g-bd m-cpfw">
 			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
@@ -213,7 +213,7 @@
             </th:block>
 		</div>
 		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/底部通用.html"></div>
+		<div id="footer" th:replace="/其他/底部通用.html"></div>
 		<!-- 底部 end -->
 	</body>
 </html>

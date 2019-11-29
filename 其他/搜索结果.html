@@ -13,17 +13,41 @@
 		<script type="text/javascript" src="js/dev.js"></script>
 		<!--*/-->
 		<script type="text/javascript" src="js/all.js"></script>
+		<style type="text/css">
+			em{color:red;}
+		</style>
 	</head>
 	<body>
-		<!-- 头部 start-->
-		<div id="header" th:replace="/other/头部通用.html"></div>
-
-		<!-- 头部 end-->
+        <!-- 底部 start -->
+        <!--#include virtual='/include/header.html'-->
+        <!-- 底部 end -->
 		<div class="g-bd">
-			<p>信息检索</p>
+			用时：[[${took}]]ms
+			<div class="m-xwzx">
+				<ul class="u-list2">
+					<li th:each="item : ${records}">
+						<div class="u-list2-img" th:if="${item.thumbnail!=null && item.thumbnail!=''}">
+							<a target="_blank" th:href="${item.url}">
+								<img th:src="${item.thumbnail}" src="images/common.files/001.jpg"/>
+							</a>
+						</div>
+						<div id="u-list2-cont">
+							<div class="u-list2-tt">
+								<a target="_blank" th:href="${item.url}" th:utext="${item.title}">[[${item.title}]]</a>
+								<span>[[${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}]]</span>
+							</div>
+							<div th:if="${item.resourceSummary!=null && item.resourceSummary!=null}" class="u-list2-p" th:utext="${item.resourceSummary}">
+								[[${item.resourceSummary}]]
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!--翻页begin-->
+			</div><!--翻页end-->
 		</div>
-		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/底部通用.html"></div>
-		<!-- 底部 end -->
+	    <!-- 底部 start -->
+	    <!--#include virtual='/include/footer.html'-->
+	    <!-- 底部 end -->
 	</body>
 </html>
