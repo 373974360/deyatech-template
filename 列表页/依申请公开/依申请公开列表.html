@@ -73,7 +73,7 @@
                     <span>申请编码</span><input id="ysqCode" name="ysqCode" value="" placeholder="请输入申请编码">
                     <span>查询码</span><input id="queryCode" name="queryCode" value="" placeholder="请输入查询码">
                     <button onclick="btnSearch()" type="button">查询</button>
-                    <span class="yxx"><a href="/ysqgk/ysqgkbl/list.jhtml">【我要申请】</a></span>
+                    <span class="yxx"><a href="/ysqgk/ysqgkbl/list.html">【我要申请】</a></span>
                 </div>
 				<div class="g-blk15"></div>
 				<th:block th:with="applyList = ${#ApplyOpenData.getApplyOpenlList(#{'modelId':'1194468064054259713','siteId':site.id,'catId':catalog.id},pageNo,20)}">
@@ -119,7 +119,7 @@
 			</th:block>
 		</div>
 		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/底部通用.html"></div>
-		<!-- 底部 end -->
+        <!--#include virtual='/include/footer.html'-->
+        <!-- 底部 end -->
 	</body>
 </html>
