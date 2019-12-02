@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-        <base href="./" th:href="'/template/'"/>
+        <base href="/template/"/>
 		<title th:text="${catalog.name + ' —— 西安德雅通科技有限公司'}">德雅通科技有限公司</title>
 		<link rel="stylesheet" type="text/css" href="styles/group.css"/>
 		<link rel="stylesheet" type="text/css" href="styles/common.skin/common.css"/>
@@ -15,16 +15,16 @@
 		<script type="text/javascript" src="js/all.js"></script>
 	</head>
 	<body>
-		<!-- 头部 start-->
-		<div id="header" th:replace="/other/头部通用.html"></div>
-		<!-- 头部 end-->
+        <!-- 底部 start -->
+        <!--#include virtual='/include/header.html'-->
+        <!-- 底部 end -->
 		<div class="g-bd m-cpfw">
 			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
 				<div class="g-1st-lt left" th:if="${catalogList!=null}">
 					<div class="m-lst-tnm">[[${catalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="${cata.linkUrl}">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -32,7 +32,7 @@
 					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="${cata.linkUrl}">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -40,13 +40,13 @@
 			<div class="g-1st-rt right">
 				<div class="m-tnm">
 					<div class="m-rst-tnm left">
-						<a th:href="'/'+${catalog.pathName}+'/list.jhtml'">[[${catalog.name}]]</a>
+						<a th:href="${catalog.linkUrl}">[[${catalog.name}]]</a>
 					</div>
 					<div class="m-local right" >
 						当前位置：
 						<span><a href="/" >首页</a></span>
 						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-							<span>></span><span><a th:href="'/'+${c.pathName}+'/list.jhtml'">[[${c.name}]]</a></span>
+							<span>></span><span><a th:href="${c.linkUrl}">[[${c.name}]]</a></span>
 						</th:block>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 							<div class="u-list2-img" th:if="${item.thumbnail!=null && item.thumbnail!=''}"><a target="_blank" th:href="${item.url}"><img th:src="${item.thumbnail}" src="images/common.files/001.jpg"/></a></div>
 							<div id="u-list2-cont">
 								<div class="u-list2-tt">
-									<a target="_blank" th:href="'/'+${catalog.pathName}+'_content_info_'+${item.id}+'.jhtml'" th:text="${item.title}">[[${item.title}]]</a><span th:text="${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}">[[${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}]]</span>
+									<a target="_blank" th:href="${item.url}" th:text="${item.title}">[[${item.title}]]</a><span th:text="${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}">[[${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}]]</span>
 								</div>
 								<div th:if="${item.resourceSummary!=null && item.resourceSummary!=null}" class="u-list2-p" th:utext="${item.resourceSummary}">
 									[[${item.resourceSummary}]]
@@ -69,19 +69,21 @@
 				</div>
 				<!--翻页begin-->
 				<div class="m-lst-pg">
-					<span><a th:href="@{'/'+${catalog.pathName+'/list.jhtml'}}">首页</a></span>
-					<span th:if="${infoList.current>1}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${infoList.current-1}+'.jhtml'}">上一页</a></span>
-					<span th:if="${infoList.current<infoList.pages}"><a th:href="@{'/'+${catalog.pathName}+'/list/'+${infoList.current+1}+'.jhtml'}">下一页</a></span>
-					<span><a th:href="@{'/'+${catalog.pathName}+'/list/'+${infoList.pages}+'.jhtml'}">末页</a></span>
+					<span><a th:href="${infoList.firstPageUrl}">首页</a></span>
+					<span><a th:href="${infoList.prePageUrl}">上一页</a></span>
+					<span><a th:href="${infoList.nextPageUrl}">下一页</a></span>
+					<span><a th:href="${infoList.endPageUrl}">末页</a></span>
 					<span th:text="'共'+${infoList.total}+'条记录'">共110条记录</span>
 					<span th:text="'共'+${infoList.pages}+'页'">共10页</span>
-					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> <option th:each="p:${#numbers.sequence(1,infoList.pages)}"  th:value="@{'/'+${catalog.pathName}+'/list/'+${p}+'.jhtml'}" th:selected="${p} == ${infoList.current}" th:text="${p}">1</option> </select>页 </span>
+					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> 
+						<option th:each="p,status : ${infoList.pageList}" th:value="${p}" th:selected="${status.index+1} == ${infoList.current}" th:text="${status.index+1}">[[${status.index+1}]]</option> 
+					</select>页 </span>
 				</div><!--翻页end-->
 			</div>
 			</th:block>
 		</div>
-		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/底部通用.html"></div>
-		<!-- 底部 end -->
+	    <!-- 底部 start -->
+	    <!--#include virtual='/include/footer.html'-->
+	    <!-- 底部 end -->
 	</body>
 </html>

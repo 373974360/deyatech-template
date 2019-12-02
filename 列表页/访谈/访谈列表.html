@@ -15,16 +15,16 @@
 		<script type="text/javascript" src="js/all.js"></script>
 	</head>
 	<body>
-		<!-- 头部 start-->
-		<div id="header" th:replace="/other/头部通用.html"></div>
-		<!-- 头部 end-->
+		<!-- 底部 start -->
+        <!--#include virtual='/include/header.html'-->
+        <!-- 底部 end -->
 		<div class="g-bd m-cpfw">
 			<th:block th:with="catalogList = ${#CataData.getCatalogChildrenTree(site.id,catalog.id)}">
 				<div class="g-1st-lt left" th:if="${catalogList!=null}">
 					<div class="m-lst-tnm">[[${catalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${catalogList}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="${cata.linkUrl}">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -32,7 +32,7 @@
 					<div class="m-lst-tnm" th:with="parentCatalog = ${#CataData.getCatalog(site.id,catalog.parentId)}">[[${parentCatalog.name}]]</div>
 					<ul class="m-lst-nav">
 	                    <li th:each="cata : ${#CataData.getCatalogChildrenTree(site.id,catalog.parentId)}" th:class="${cata.id == catalog.id ? 'hover':''}">
-	                    	<a th:href="'/'+${cata.pathName}+'/list.jhtml'">[[${cata.name}]]</a>
+	                    	<a th:href="${cata.linkUrl}">[[${cata.name}]]</a>
 	                    </li>
 					</ul>
 				</div>
@@ -40,13 +40,13 @@
 			<div class="g-1st-rt right">
 				<div class="m-tnm">
 					<div class="m-rst-tnm left">
-						<a th:href="'/'+${catalog.pathName}+'/list.jhtml'">[[${catalog.name}]]</a>
+						<a th:href="${catalog.linkUrl}">[[${catalog.name}]]</a>
 					</div>
 					<div class="m-local right" >
 						当前位置：
 						<span><a href="/" >首页</a></span>
 						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-							<span>></span><span><a th:href="'/'+${c.pathName}+'/list.jhtml'">[[${c.name}]]</a></span>
+							<span>></span><span><a th:href="${c.linkUrl}">[[${c.name}]]</a></span>
 						</th:block>
 					</div>
 				</div>
@@ -80,8 +80,8 @@
 			</div>
 			</th:block>
 		</div>
-		<!-- 底部 start -->
-		<div id="footer" th:replace="/other/底部通用.html"></div>
-		<!-- 底部 end -->
+	    <!-- 底部 start -->
+	    <!--#include virtual='/include/footer.html'-->
+	    <!-- 底部 end -->
 	</body>
 </html>

@@ -46,7 +46,7 @@
 						当前位置：
 						<span><a href="/" >首页</a></span>
 						<th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-							<span>></span><span><a th:href="${catalog.linkUrl}">[[${c.name}]]</a></span>
+							<span>></span><span><a th:href="${c.linkUrl}">[[${c.name}]]</a></span>
 						</th:block>
 					</div>
 				</div>

@@ -24,19 +24,17 @@
         </script>
     </head>
     <body>
-    <!-- 头部 start-->
-    <div id="header" th:replace="/other/头部通用.html"></div>
-    <!-- 头部 end-->
+    <!-- 底部 start -->
+    <!--#include virtual='/include/header.html'-->
+    <!-- 底部 end -->
     <div class="g-bd">
         <div class="g-blk15"></div>
         <div class="g-blk15"></div>
         <div class="m-local">
             当前位置：
-            <span>
-                <a href="index/index.html" th:href="'/'">首页</a>
-            </span>
+            <span><a href="/" >首页</a></span>
             <th:block th:each="c :${#CataData.getCatalogPosition(site.id,catalog.id)}">
-                <span>></span><span><a th:href="'/'+${c.pathName}+'_catagory.jhtml'">[[${c.name}]]</a></span>
+                <span>></span><span><a th:href="${c.linkUrl}">[[${c.name}]]</a></span>
             </th:block>
             <span>></span>
             <span>内容页</span>
@@ -69,7 +67,7 @@
         </div>
     </div>
     <!-- 底部 start -->
-    <div id="footer" th:replace="/other/底部通用.html"></div>
+    <!--#include virtual='/include/footer.html'-->
     <!-- 底部 end -->
     </body>
 </html>
