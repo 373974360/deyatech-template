@@ -51,36 +51,43 @@
 					</div>
 				</div>
 				<div class="g-blk15"></div>
-				<th:block th:with="infoList = ${#InfoData.getInfoList(#{'siteId':site.id,'catId':catalog.id},pageNo,1)}">
-				<div class="m-xwzx">
-					<ul class="u-list2">
-						<li th:each="item : ${infoList.records}">
-							<div class="u-list2-img" th:if="${item.thumbnail!=null && item.thumbnail!=''}"><a target="_blank" th:href="${item.url}"><img th:src="${item.thumbnail}" src="images/common.files/001.jpg"/></a></div>
-							<div id="u-list2-cont">
-								<div class="u-list2-tt">
-									<a target="_blank" th:href="${item.url}" th:text="${item.title}">[[${item.title}]]</a><span th:text="${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}">[[${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}]]</span>
+				<th:block th:with="infoList = ${#InfoData.getInfoList(#{'siteId':site.id,'catId':catalog.id,'metadata':'true'},pageNo,20)}">
+					<div class="m-xwzx">
+						<ul class="u-list2">
+							<li th:each="item : ${infoList.records}">
+								<div class="u-list2-img" th:if="${item.thumbnail!=null && item.thumbnail!=''}">
+									<a target="_blank" th:href="${item.url}">
+										<img th:src="${item.thumbnail}" src="images/common.files/001.jpg"/>
+									</a>
 								</div>
-								<div th:if="${item.resourceSummary!=null && item.resourceSummary!=null}" class="u-list2-p" th:utext="${item.resourceSummary}">
-									[[${item.resourceSummary}]]
+								<div id="u-list2-cont">
+									<div class="u-list2-tt">
+										<a target="_blank" th:href="${item.url}" th:text="${item.title}">[[${item.title}]]</a>
+										<span th:text="${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}">
+										[[${#dates.format(item.resourcePublicationDate,'yyyy-MM-dd')}]]
+										</span>
+									</div>
+									<div th:if="${item.resourceSummary!=null && item.resourceSummary!=null}" class="u-list2-p" th:utext="${item.resourceSummary}">
+										[[${item.resourceSummary}]]
+									</div>
 								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<!--翻页begin-->
-				<div class="m-lst-pg">
-					<span><a th:href="${infoList.firstPageUrl}">首页</a></span>
-					<span><a th:href="${infoList.prePageUrl}">上一页</a></span>
-					<span><a th:href="${infoList.nextPageUrl}">下一页</a></span>
-					<span><a th:href="${infoList.endPageUrl}">末页</a></span>
-					<span th:text="'共'+${infoList.total}+'条记录'">共110条记录</span>
-					<span th:text="'共'+${infoList.pages}+'页'">共10页</span>
-					<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> 
-						<option th:each="p,status : ${infoList.pageList}" th:value="${p}" th:selected="${status.index+1} == ${infoList.current}" th:text="${status.index+1}">[[${status.index+1}]]</option> 
-					</select>页 </span>
-				</div><!--翻页end-->
+							</li>
+						</ul>
+					</div>
+					<!--翻页begin-->
+					<div class="m-lst-pg">
+						<span><a th:href="${infoList.firstPageUrl}">首页</a></span>
+						<span><a th:href="${infoList.prePageUrl}">上一页</a></span>
+						<span><a th:href="${infoList.nextPageUrl}">下一页</a></span>
+						<span><a th:href="${infoList.endPageUrl}">末页</a></span>
+						<span th:text="'共'+${infoList.total}+'条记录'">共110条记录</span>
+						<span th:text="'共'+${infoList.pages}+'页'">共10页</span>
+						<span>跳转到 <select onChange="location.href=this.options[this.selectedIndex].value;"> 
+							<option th:each="p,status : ${infoList.pageList}" th:value="${p}" th:selected="${status.index+1} == ${infoList.current}" th:text="${status.index+1}">[[${status.index+1}]]</option> 
+						</select>页 </span>
+					</div><!--翻页end-->
+				</th:block>
 			</div>
-			</th:block>
 		</div>
 	    <!-- 底部 start -->
 	    <!--#include virtual='/include/footer.html'-->
